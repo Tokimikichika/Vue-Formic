@@ -50,13 +50,13 @@
     </slot>
 
     <!-- Ошибки -->
-    <slot name="error" :field="fieldData" :error="fieldData.fieldState.error">
+    <slot name="error" :field="fieldData" :error="fieldData.fieldState.value.error">
       <div
         v-if="fieldData.hasError.value"
         :id="`field-${fieldData.fieldSchema.name}-error`"
         :class="errorClasses"
       >
-        {{ fieldData.fieldState.error }}
+        {{ fieldData.fieldState.value.error }}
       </div>
     </slot>
   </div>
@@ -102,11 +102,11 @@ const wrapperClasses = computed(() => {
     classes.push('field-disabled');
   }
   
-  if (props.fieldData.fieldState.touched) {
+  if (props.fieldData.fieldState.value.touched) {
     classes.push('field-touched');
   }
   
-  if (props.fieldData.fieldState.dirty) {
+  if (props.fieldData.fieldState.value.dirty) {
     classes.push('field-dirty');
   }
   

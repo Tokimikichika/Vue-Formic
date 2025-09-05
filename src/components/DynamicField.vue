@@ -7,7 +7,7 @@
     <!-- Проброс всех слотов -->
     <template
       v-for="(_, slotName) in $slots"
-      :key="slotName"
+      :key="(slotName as string)"
       #[slotName]="slotProps"
     >
       <slot :name="slotName" v-bind="slotProps" />

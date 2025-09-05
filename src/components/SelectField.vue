@@ -48,7 +48,7 @@
             {{ fieldData.fieldSchema.attributes?.placeholder || 'Выберите значение' }}
           </option>
           <option
-            v-for="option in fieldData.fieldOptions"
+            v-for="option in (Array.isArray(fieldData.fieldOptions) ? fieldData.fieldOptions : [])"
             :key="option.value"
             :value="option.value"
             :disabled="option.disabled"
@@ -97,7 +97,7 @@
             class="multiselect-dropdown"
           >
             <label
-              v-for="option in fieldData.fieldOptions"
+              v-for="option in (Array.isArray(fieldData.fieldOptions) ? fieldData.fieldOptions : [])"
               :key="option.value"
               class="multiselect-option"
               :class="{ disabled: option.disabled }"
@@ -149,13 +149,13 @@
     </slot>
 
     <!-- Ошибки -->
-    <slot name="error" :field="fieldData" :error="fieldData.fieldState.error">
+    <slot name="error" :field="fieldData" :error="fieldData.fieldState.value.error">
       <div
         v-if="fieldData.hasError.value"
         :id="`field-${fieldData.fieldSchema.name}-error`"
         :class="errorClasses"
       >
-        {{ fieldData.fieldState.error }}
+        {{ fieldData.fieldState.value.error }}
       </div>
     </slot>
   </div>
@@ -176,9 +176,10 @@ const dropdownOpen = ref(false);
 
 // Атрибуты для селекта
 const selectAttrs = computed(() => {
-  const { multiple, ...attrs } = props.fieldData.inputAttrs;
+  const attrs = { ...props.fieldData.inputAttrs.value };
+  const { multiple, ...restAttrs } = attrs;
   return {
-    ...attrs,
+    ...restAttrs,
     multiple: props.fieldData.fieldSchema.type === 'multiselect'
   };
 });
@@ -192,7 +193,8 @@ const selectedValues = computed(() => {
   if (props.fieldData.fieldSchema.type !== 'multiselect') return [];
   
   const values = props.fieldData.fieldValue.value || [];
-  return props.fieldData.fieldOptions.value.filter(option => 
+  const options = Array.isArray(props.fieldData.fieldOptions) ? props.fieldData.fieldOptions : [];
+  return options.filter(option => 
     values.includes(option.value)
   );
 });

@@ -86,17 +86,18 @@
                 <DynamicField
                   v-for="fieldName in group.fields"
                   :key="fieldName"
-                  :fieldData="formHandler.getFieldData(fieldName)"
+                  :fieldData="formHandler.getFieldData(fieldName)!"
                   :customComponents="customComponents"
+                  v-if="formHandler.getFieldData(fieldName)"
                 >
                   <!-- Проброс слотов для полей -->
                   <template
                     v-for="(_, slotName) in $slots"
-                    :key="slotName"
+                    :key="(slotName as string)"
                     #[slotName]="slotProps"
                   >
                     <slot
-                      v-if="slotName.startsWith('field-')"
+                      v-if="(slotName as string).startsWith('field-')"
                       :name="slotName"
                       v-bind="slotProps"
                     />
@@ -120,17 +121,18 @@
             <DynamicField
               v-for="field in formHandler.visibleFields.value"
               :key="field.name"
-              :fieldData="formHandler.getFieldData(field.name)"
+              :fieldData="formHandler.getFieldData(field.name)!"
               :customComponents="customComponents"
+              v-if="formHandler.getFieldData(field.name)"
             >
               <!-- Проброс слотов для полей -->
               <template
                 v-for="(_, slotName) in $slots"
-                :key="slotName"
+                :key="(slotName as string)"
                 #[slotName]="slotProps"
               >
                 <slot
-                  v-if="slotName.startsWith('field-')"
+                  v-if="(slotName as string).startsWith('field-')"
                   :name="slotName"
                   v-bind="slotProps"
                 />
@@ -188,7 +190,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted, type Component } from 'vue';
-import type { FormSchema, FormEvents } from '@/types';
+import type { FormSchema } from '@/types';
 import { useDynamicForm, type UseDynamicFormEvents } from '@/composables';
 import DynamicField from './DynamicField.vue';
 
@@ -220,8 +222,6 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 // Эмиты
-interface Emits extends UseDynamicFormEvents {}
-
 const emit = defineEmits<{
   submit: [data: Record<string, any>, isValid: boolean];
   change: [fieldName: string, value: any, formData: Record<string, any>];
@@ -311,7 +311,7 @@ const layoutClasses = computed(() => {
 const visibleGroups = computed(() => {
   if (!props.schema.groups) return [];
   
-  return props.schema.groups.filter(group => {
+  return props.schema.groups.filter(() => {
     // Здесь можно добавить логику условного отображения групп
     // Пока показываем все группы
     return true;

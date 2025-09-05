@@ -33,7 +33,7 @@
             :loading="fieldData.loadingOptions.value"
           >
             <label
-              v-for="option in fieldData.fieldOptions"
+              v-for="option in (Array.isArray(fieldData.fieldOptions) ? fieldData.fieldOptions : [])"
               :key="option.value"
               class="radio-option"
               :class="{ disabled: option.disabled || fieldData.isDisabled.value }"
@@ -83,13 +83,13 @@
     </slot>
 
     <!-- Ошибки -->
-    <slot name="error" :field="fieldData" :error="fieldData.fieldState.error">
+    <slot name="error" :field="fieldData" :error="fieldData.fieldState.value.error">
       <div
         v-if="fieldData.hasError.value"
         :id="`field-${fieldData.fieldSchema.name}-error`"
         :class="errorClasses"
       >
-        {{ fieldData.fieldState.error }}
+        {{ fieldData.fieldState.value.error }}
       </div>
     </slot>
   </div>

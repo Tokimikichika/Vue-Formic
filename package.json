@@ -1,5 +1,5 @@
 {
-  "name": "vue-dynamic-forms",
+  "name": "@vue-formic/dynamic-forms",
   "version": "1.0.0",
   "description": "Powerful library for creating dynamic, validated forms in Vue 3 based on JSON schemas",
   "main": "dist/index.umd.js",
@@ -38,7 +38,7 @@
     "typescript",
     "composables"
   ],
-  "author": "Your Name",
+  "author": "Tokimikichika",
   "license": "MIT",
   "peerDependencies": {
     "vue": "^3.3.0"
@@ -62,10 +62,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/vue-dynamic-forms.git"
+    "url": "git+https://github.com/Tokimikichika/Vue-Formic.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/vue-dynamic-forms/issues"
+    "url": "https://github.com/Tokimikichika/Vue-Formic/issues"
   },
-  "homepage": "https://github.com/yourusername/vue-dynamic-forms#readme"
+  "homepage": "https://github.com/Tokimikichika/Vue-Formic#readme"
 }
