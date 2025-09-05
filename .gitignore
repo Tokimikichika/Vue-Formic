@@ -80,3 +80,7 @@ pids
 # Temporary folders
 tmp/
 temp/
+
+# Internal development guides (not for public repo)
+TESTING_GUIDE.md
+PUBLISH_GUIDE.md
