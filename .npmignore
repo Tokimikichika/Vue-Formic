@@ -1,0 +1,46 @@
+# Source files (only dist should be published)
+src/
+demo.html
+demo-dist/
+
+# Development files
+.github/
+.vscode/
+.idea/
+
+# Configuration files
+vite.config.ts
+vite.config.demo.ts
+tsconfig.json
+vitest.config.ts
+
+# Test files
+**/*.test.ts
+**/*.test.js
+**/__tests__/
+coverage/
+
+# Documentation for developers (not end users)
+TESTING_GUIDE.md
+PUBLISH_GUIDE.md
+
+# Development dependencies
+node_modules/
+.pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Build cache
+*.tsbuildinfo
+.cache/
+.parcel-cache/
+
+# Environment files
+.env*
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
