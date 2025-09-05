@@ -7,7 +7,7 @@
     <slot name="label" :field="fieldData.fieldSchema" :required="fieldData.isRequired.value">
       <label
         v-if="fieldData.fieldSchema.label"
-        :for="fieldData.inputAttrs.id"
+        :for="fieldData.inputAttrs.value.id"
         :class="labelClasses"
       >
         {{ fieldData.fieldSchema.label }}

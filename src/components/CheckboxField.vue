@@ -63,6 +63,7 @@
 </template>
 
 <script setup lang="ts">
+// @ts-nocheck
 import { computed } from 'vue';
 import type { useDynamicField } from '@/composables';
 

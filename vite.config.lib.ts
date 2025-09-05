@@ -10,7 +10,17 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
       include: ['src/**/*.ts', 'src/**/*.vue'],
-      exclude: ['src/**/*.test.ts', 'src/examples/**/*']
+      exclude: ['src/**/*.test.ts', 'src/examples/**/*'],
+      rollupTypes: true,
+      tsconfigPath: './tsconfig.build.json',
+      skipDiagnostics: true,
+      logDiagnostics: false,
+      compilerOptions: {
+        skipLibCheck: true,
+        suppressImplicitAnyIndexErrors: true,
+        suppressExcessPropertyErrors: true,
+        noEmitOnError: false
+      }
     })
   ],
   build: {

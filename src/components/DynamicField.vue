@@ -6,17 +6,20 @@
   >
     <!-- Проброс всех слотов -->
     <template
-      v-for="(_, slotName) in $slots"
-      :key="(slotName as string)"
-      #[slotName]="slotProps"
+      v-for="(slotInfo, index) in typedSlots"
+      :key="`slot-${index}`"
+      #[slotInfo.name]="slotProps"
     >
-      <slot :name="slotName" v-bind="slotProps" />
+      <slot 
+        :name="slotInfo.name" 
+        v-bind="slotProps" 
+      />
     </template>
   </component>
 </template>
 
 <script setup lang="ts">
-import { computed, type Component } from 'vue';
+import { computed, useSlots, type Component } from 'vue';
 import type { useDynamicField } from '@/composables';
 import BaseField from './BaseField.vue';
 import SelectField from './SelectField.vue';
@@ -30,6 +33,13 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   customComponents: () => ({})
+});
+
+const slots = useSlots();
+
+// Типизированные слоты
+const typedSlots = computed((): Array<{ name: string; slot: any }> => {
+  return Object.keys(slots).map(name => ({ name, slot: slots[name] }));
 });
 
 // Маппинг типов полей к компонентам

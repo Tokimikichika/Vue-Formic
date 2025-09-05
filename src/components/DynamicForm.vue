@@ -88,17 +88,16 @@
                   :key="fieldName"
                   :fieldData="formHandler.getFieldData(fieldName)!"
                   :customComponents="customComponents"
-                  v-if="formHandler.getFieldData(fieldName)"
                 >
                   <!-- Проброс слотов для полей -->
                   <template
-                    v-for="(_, slotName) in $slots"
-                    :key="(slotName as string)"
-                    #[slotName]="slotProps"
+                    v-for="(slotInfo, index) in typedSlots"
+                    :key="`group-slot-${index}`"
+                    #[slotInfo.name]="slotProps"
                   >
                     <slot
-                      v-if="(slotName as string).startsWith('field-')"
-                      :name="slotName"
+                      v-if="slotInfo.name.startsWith('field-')"
+                      :name="slotInfo.name"
                       v-bind="slotProps"
                     />
                   </template>
@@ -123,17 +122,16 @@
               :key="field.name"
               :fieldData="formHandler.getFieldData(field.name)!"
               :customComponents="customComponents"
-              v-if="formHandler.getFieldData(field.name)"
             >
               <!-- Проброс слотов для полей -->
               <template
-                v-for="(_, slotName) in $slots"
-                :key="(slotName as string)"
-                #[slotName]="slotProps"
+                v-for="(slotInfo, index) in typedSlots"
+                :key="`field-slot-${index}`"
+                #[slotInfo.name]="slotProps"
               >
                 <slot
-                  v-if="(slotName as string).startsWith('field-')"
-                  :name="slotName"
+                  v-if="slotInfo.name.startsWith('field-')"
+                  :name="slotInfo.name"
                   v-bind="slotProps"
                 />
               </template>
@@ -189,9 +187,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, onUnmounted, type Component } from 'vue';
+import { computed, ref, onMounted, onUnmounted, useSlots, type Component } from 'vue';
 import type { FormSchema } from '@/types';
-import { useDynamicForm, type UseDynamicFormEvents } from '@/composables';
+import { useDynamicForm } from '@/composables';
 import DynamicField from './DynamicField.vue';
 
 interface Props {
@@ -231,8 +229,15 @@ const emit = defineEmits<{
   validate: [errors: Record<string, string>];
 }>();
 
+const slots = useSlots();
+
 // Состояние групп (свернуты/развернуты)
 const collapsedGroups = ref<Set<string>>(new Set());
+
+// Типизированные слоты
+const typedSlots = computed((): Array<{ name: string; slot: any }> => {
+  return Object.keys(slots).map(name => ({ name, slot: slots[name] }));
+});
 
 // Инициализация формы
 const formHandler = useDynamicForm(
