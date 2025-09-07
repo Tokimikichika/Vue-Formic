@@ -48,7 +48,7 @@
             {{ fieldData.fieldSchema.attributes?.placeholder || 'Выберите значение' }}
           </option>
           <option
-            v-for="option in (Array.isArray(fieldData.fieldOptions) ? fieldData.fieldOptions : [])"
+            v-for="option in fieldData.fieldOptions.value"
             :key="option.value"
             :value="option.value"
             :disabled="option.disabled"
@@ -58,9 +58,12 @@
           </option>
         </select>
         
+        
+        
         <div
           v-else-if="fieldData.fieldSchema.type === 'multiselect'"
           class="multiselect-container"
+          :ref="setContainerRef"
         >
           <div 
             class="multiselect-input"
@@ -97,7 +100,7 @@
             class="multiselect-dropdown"
           >
             <label
-              v-for="option in (Array.isArray(fieldData.fieldOptions) ? fieldData.fieldOptions : [])"
+              v-for="option in fieldData.fieldOptions.value"
               :key="option.value"
               class="multiselect-option"
               :class="{ disabled: option.disabled }"
@@ -173,11 +176,12 @@ const props = defineProps<Props>();
 
 // Состояние для multiselect
 const dropdownOpen = ref(false);
+const containerRef = ref<HTMLElement | null>(null);
 
 // Атрибуты для селекта
 const selectAttrs = computed(() => {
   const attrs = { ...props.fieldData.inputAttrs.value };
-  const { multiple, ...restAttrs } = attrs;
+  const { multiple, type, ...restAttrs } = attrs;
   return {
     ...restAttrs,
     multiple: props.fieldData.fieldSchema.type === 'multiselect'
@@ -193,7 +197,7 @@ const selectedValues = computed(() => {
   if (props.fieldData.fieldSchema.type !== 'multiselect') return [];
   
   const values = props.fieldData.fieldValue.value || [];
-  const options = Array.isArray(props.fieldData.fieldOptions) ? props.fieldData.fieldOptions : [];
+  const options = props.fieldData.fieldOptions.value || [];
   return options.filter(option => 
     values.includes(option.value)
   );
@@ -245,6 +249,10 @@ function handleSelectChange(event: Event) {
 }
 
 // Методы для multiselect
+function setContainerRef(el: HTMLElement | null) {
+  containerRef.value = el;
+}
+
 function toggleDropdown() {
   if (!props.fieldData.isDisabled.value) {
     dropdownOpen.value = !dropdownOpen.value;
@@ -275,9 +283,8 @@ function removeValue(value: any) {
 // Закрытие dropdown при клике снаружи
 function handleClickOutside(event: Event) {
   const target = event.target as HTMLElement;
-  const container = document.querySelector('.multiselect-container');
   
-  if (container && !container.contains(target)) {
+  if (containerRef.value && !containerRef.value.contains(target)) {
     dropdownOpen.value = false;
   }
 }

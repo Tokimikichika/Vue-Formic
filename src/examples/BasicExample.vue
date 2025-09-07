@@ -9,7 +9,6 @@
         :schema="formSchema"
         :initialData="initialData"
         @submit="onSubmit"
-        @change="onFieldChange"
       />
     </div>
 
@@ -32,7 +31,7 @@ const formData = ref<Record<string, any>>({});
 const initialData = {
   name: '',
   email: '',
-  age: 18,
+  age: '',
   country: '',
   newsletter: false
 };
@@ -47,7 +46,7 @@ const formSchema: FormSchema = {
       name: 'name',
       type: 'text',
       label: 'Имя пользователя',
-      description: 'Введите ваше полное имя',
+      description: '',
       validation: {
         required: true,
         minLength: 2,
@@ -120,7 +119,6 @@ const formSchema: FormSchema = {
 
 // Обработчики событий
 function onSubmit(data: Record<string, any>, isValid: boolean) {
-  console.log('Form submitted:', { data, isValid });
   
   if (isValid) {
     alert('Форма успешно отправлена!');
@@ -130,9 +128,7 @@ function onSubmit(data: Record<string, any>, isValid: boolean) {
   }
 }
 
-function onFieldChange(fieldName: string, value: any, formData: Record<string, any>) {
-  console.log('Field changed:', { fieldName, value, formData });
-}</script>
+</script>
 
 <style scoped>
 .example-container {

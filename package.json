@@ -1,5 +1,5 @@
 {
-  "name": "vue-formic-dynamic-forms",
+  "name": "@tokimikichika/vue-dynamic-forms",
   "version": "1.0.0",
   "description": "Powerful library for creating dynamic, validated forms in Vue 3 based on JSON schemas",
   "main": "dist/index.umd.js",
@@ -15,8 +15,7 @@
   },
   "files": [
     "dist",
-    "README.md",
-    "DOCUMENTATION.md"
+    "README.md"
   ],
   "scripts": {
     "dev": "vite --config vite.config.demo.ts",

@@ -7,17 +7,40 @@
       
       <DynamicForm
         :schema="formSchema"
+        :initialData="initialData"
         @submit="onSubmit"
         @change="onFieldChange"
       />
+    </div>
+
+    <div class="example-section">
+      <h3>Данные формы:</h3>
+      <pre>{{ JSON.stringify(formData, null, 2) }}</pre>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import type { FormSchema } from '../types';
 import { DynamicForm } from '../components';
+
+// Данные формы
+const formData = ref<Record<string, any>>({});
+
+// Начальные данные для формы
+const initialData = {
+  name: '',
+  age: '',
+  hasJob: '',
+  jobTitle: '',
+  company: '',
+  salary: 50,
+  experience: '',
+  contactMethods: [],
+  languages: [],
+  newsletter: false
+};
 
 // Схема формы с условной логикой
 const formSchema: FormSchema = {
@@ -205,17 +228,18 @@ const formSchema: FormSchema = {
 
 // Обработчики событий
 function onSubmit(data: Record<string, any>, isValid: boolean) {
-  console.log('Advanced form submitted:', { data, isValid });
   
   if (isValid) {
     alert('Анкета успешно отправлена!');
+    formData.value = data;
   } else {
     alert('Пожалуйста, исправьте ошибки в форме');
   }
 }
 
-function onFieldChange(fieldName: string, value: any, formData: Record<string, any>) {
-  console.log('Advanced field changed:', { fieldName, value, formData });
+function onFieldChange(fieldName: string, value: any, currentFormData: Record<string, any>) {
+  // Обновляем отображаемые данные
+  formData.value = { ...currentFormData };
 }
 </script>
 
@@ -230,13 +254,21 @@ function onFieldChange(fieldName: string, value: any, formData: Record<string, a
   margin-bottom: 2rem;
 }
 
+pre {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid #dee2e6;
+  overflow-x: auto;
+}
+
 h1 {
   color: #212529;
   text-align: center;
   margin-bottom: 2rem;
 }
 
-h2 {
+h2, h3 {
   color: #495057;
   margin-bottom: 1rem;
 }

@@ -33,7 +33,7 @@
             :loading="fieldData.loadingOptions.value"
           >
             <label
-              v-for="option in (Array.isArray(fieldData.fieldOptions) ? fieldData.fieldOptions : [])"
+              v-for="option in fieldData.fieldOptions.value"
               :key="option.value"
               class="radio-option"
               :class="{ disabled: option.disabled || fieldData.isDisabled.value }"

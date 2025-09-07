@@ -67,9 +67,6 @@ const formSchema: FormSchema = {
   ]
 }
 
-const onSubmit = (data: any, isValid: boolean) => {
-  console.log('Form data:', data)
-}
 </script>
 ```
 

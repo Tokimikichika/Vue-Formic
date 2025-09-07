@@ -139,7 +139,14 @@ export function useDynamicField(
     // Обработка разных типов полей
     switch (fieldSchema.type) {
       case 'number':
-        value = target.valueAsNumber;
+        // Если поле пустое, оставляем пустую строку
+        if (target.value === '') {
+          value = '';
+        } else {
+          const numValue = target.valueAsNumber;
+          // Если значение не число (NaN), оставляем как строку для валидации
+          value = isNaN(numValue) ? target.value : numValue;
+        }
         break;
       case 'checkbox':
         value = (target as HTMLInputElement).checked;
@@ -164,7 +171,6 @@ export function useDynamicField(
 
   // Загрузка опций для селектов
   async function loadOptions() {
-    if (!fieldSchema.options) return;
     
     if (Array.isArray(fieldSchema.options)) {
       fieldOptions.value = fieldSchema.options;
@@ -176,7 +182,6 @@ export function useDynamicField(
       try {
         fieldOptions.value = await fieldSchema.options();
       } catch (error) {
-        console.error(`Failed to load options for field ${fieldSchema.name}:`, error);
         fieldOptions.value = [];
       } finally {
         loadingOptions.value = false;
