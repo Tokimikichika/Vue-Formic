@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/vue-dynamic-forms.svg)](https://badge.fury.io/js/vue-dynamic-forms)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Пowerful library for creating dynamic, validated forms in Vue 3 based on JSON schemas.
+Powerful library for creating dynamic, validated forms in Vue 3 based on JSON schemas.
 
 ## ✨ Features
 
@@ -69,10 +69,6 @@ const formSchema: FormSchema = {
 
 </script>
 ```
-
-## 📖 Documentation
-
-For detailed documentation, examples, and API reference, see [DOCUMENTATION.md](./DOCUMENTATION.md).
 
 ## 🎯 Advanced Usage
 

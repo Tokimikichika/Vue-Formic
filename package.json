@@ -1,6 +1,6 @@
 {
-  "name": "@tokimikichika/vue-dynamic-forms",
-  "version": "1.0.0",
+  "name": "vue-formic-dynamic-forms",
+  "version": "1.0.2",
   "description": "Powerful library for creating dynamic, validated forms in Vue 3 based on JSON schemas",
   "main": "dist/index.umd.js",
   "module": "dist/index.mjs",
